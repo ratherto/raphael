@@ -271,7 +271,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            width: 0,
 	            x: 0,
 	            y: 0,
-	            class: ""
+	            "class": ""
 	        },
 	        availableAnimAttrs = R._availableAnimAttrs = {
 	            blur: nu,
@@ -6105,7 +6105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        $(node, {x: a.x, y: a.y});
 	        el._.dirty = 1;
 	        var bb = el._getBBox(),
-	            dif = a.y - (bb.y + bb.height / 2);
+	            dif = a.y - (bb.y + bb.height * 8 / 10);
 	        if (bb.height) dif && R.is(dif, "finite") && $(tspans[0], {dy: dif});
 	    },
 	    getRealNode = function (node) {
