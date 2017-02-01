@@ -5485,13 +5485,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-	// 
+	//
 	// Licensed under the Apache License, Version 2.0 (the "License");
 	// you may not use this file except in compliance with the License.
 	// You may obtain a copy of the License at
-	// 
+	//
 	// http://www.apache.org/licenses/LICENSE-2.0
-	// 
+	//
 	// Unless required by applicable law or agreed to in writing, software
 	// distributed under the License is distributed on an "AS IS" BASIS,
 	// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -5691,7 +5691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     - name (array) if you don’t want to use separators, you can use array of strings
 	     - f (function) event handler function
 	     **
-	     = (function) returned function accepts a single numeric parameter that represents z-index of the handler. It is an optional feature and only used when you need to ensure that some subset of handlers will be invoked in a given order, despite of the order of assignment. 
+	     = (function) returned function accepts a single numeric parameter that represents z-index of the handler. It is an optional feature and only used when you need to ensure that some subset of handlers will be invoked in a given order, despite of the order of assignment.
 	     > Example:
 	     | eve.on("mouse", eatIt)(2);
 	     | eve.on("mouse", scream);
@@ -6256,163 +6256,165 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    case "title":
 	                        var title = node.getElementsByTagName("title");
 
-	                        // Use the existing <title>.
-	                        if (title.length && (title = title[0])) {
-	                          title.firstChild.nodeValue = value;
-	                        } else {
-	                          title = $("title");
-	                          var val = R._g.doc.createTextNode(value);
-	                          title.appendChild(val);
-	                          node.appendChild(title);
-	                        }
-	                        break;
-	                    case "href":
-	                    case "target":
-	                        var pn = node.parentNode;
-	                        if (pn.tagName.toLowerCase() != "a") {
-	                            var hl = $("a");
-	                            pn.insertBefore(hl, node);
-	                            hl.appendChild(node);
-	                            pn = hl;
-	                        }
-	                        if (att == "target") {
-	                            pn.setAttributeNS(xlink, "show", value == "blank" ? "new" : value);
-	                        } else {
-	                            pn.setAttributeNS(xlink, att, value);
-	                        }
-	                        break;
-	                    case "cursor":
-	                        node.style.cursor = value;
-	                        break;
-	                    case "transform":
-	                        o.transform(value);
-	                        break;
-	                    case "arrow-start":
-	                        addArrow(o, value);
-	                        break;
-	                    case "arrow-end":
-	                        addArrow(o, value, 1);
-	                        break;
-	                    case "clip-rect":
-	                        var rect = Str(value).split(separator);
-	                        if (rect.length == 4) {
-	                            o.clip && o.clip.parentNode.parentNode.removeChild(o.clip.parentNode);
-	                            var el = $("clipPath"),
-	                                rc = $("rect");
-	                            el.id = R.createUUID();
-	                            $(rc, {
-	                                x: rect[0],
-	                                y: rect[1],
-	                                width: rect[2],
-	                                height: rect[3]
-	                            });
-	                            el.appendChild(rc);
-	                            o.paper.defs.appendChild(el);
-	                            $(node, {"clip-path": "url(#" + el.id + ")"});
-	                            o.clip = rc;
-	                        }
-	                        if (!value) {
-	                            var path = node.getAttribute("clip-path");
-	                            if (path) {
-	                                var clip = R._g.doc.getElementById(path.replace(/(^url\(#|\)$)/g, E));
-	                                clip && clip.parentNode.removeChild(clip);
-	                                $(node, {"clip-path": E});
-	                                delete o.clip;
-	                            }
-	                        }
-	                    break;
-	                    case "path":
-	                        if (o.type == "path") {
-	                            $(node, {d: value ? attrs.path = R._pathToAbsolute(value) : "M0,0"});
-	                            o._.dirty = 1;
-	                            if (o._.arrows) {
-	                                "startString" in o._.arrows && addArrow(o, o._.arrows.startString);
-	                                "endString" in o._.arrows && addArrow(o, o._.arrows.endString, 1);
-	                            }
-	                        }
-	                        break;
-	                    case "width":
-	                        node.setAttribute(att, value);
-	                        o._.dirty = 1;
-	                        if (attrs.fx) {
-	                            att = "x";
-	                            value = attrs.x;
-	                        } else {
-	                            break;
-	                        }
-	                    case "x":
-	                        if (attrs.fx) {
-	                            value = -attrs.x - (attrs.width || 0);
-	                        }
-	                    case "rx":
-	                        if (att == "rx" && o.type == "rect") {
-	                            break;
-	                        }
-	                    case "cx":
-	                        node.setAttribute(att, value);
-	                        o.pattern && updatePosition(o);
-	                        o._.dirty = 1;
-	                        break;
-	                    case "height":
-	                        node.setAttribute(att, value);
-	                        o._.dirty = 1;
-	                        if (attrs.fy) {
-	                            att = "y";
-	                            value = attrs.y;
-	                        } else {
-	                            break;
-	                        }
-	                    case "y":
-	                        if (attrs.fy) {
-	                            value = -attrs.y - (attrs.height || 0);
-	                        }
-	                    case "ry":
-	                        if (att == "ry" && o.type == "rect") {
-	                            break;
-	                        }
-	                    case "cy":
-	                        node.setAttribute(att, value);
-	                        o.pattern && updatePosition(o);
-	                        o._.dirty = 1;
-	                        break;
-	                    case "r":
-	                        if (o.type == "rect") {
-	                            $(node, {rx: value, ry: value});
-	                        } else {
-	                            node.setAttribute(att, value);
-	                        }
-	                        o._.dirty = 1;
-	                        break;
-	                    case "src":
-	                        if (o.type == "image") {
-	                            node.setAttributeNS(xlink, "href", value);
-	                        }
-	                        break;
-	                    case "stroke-width":
-	                        if (o._.sx != 1 || o._.sy != 1) {
-	                            value /= mmax(abs(o._.sx), abs(o._.sy)) || 1;
-	                        }
-	                        node.setAttribute(att, value);
-	                        if (attrs["stroke-dasharray"]) {
-	                            addDashes(o, attrs["stroke-dasharray"], params);
-	                        }
-	                        if (o._.arrows) {
-	                            "startString" in o._.arrows && addArrow(o, o._.arrows.startString);
-	                            "endString" in o._.arrows && addArrow(o, o._.arrows.endString, 1);
-	                        }
-	                        break;
-	                    case "stroke-dasharray":
-	                        addDashes(o, value, params);
-	                        break;
-	                    case "fill":
-	                        var isURL = Str(value).match(R._ISURL);
-	                        if (isURL) {
-	                            el = $("pattern");
-	                            var ig = $("image");
-	                            el.id = R.createUUID();
-	                            $(el, {x: 0, y: 0, patternUnits: "userSpaceOnUse", height: 1, width: 1});
-	                            $(ig, {x: 0, y: 0, "xlink:href": isURL[1]});
-	                            el.appendChild(ig);
+                        // Use the existing <title>.
+                        if (title.length && (title = title[0])) {
+                          title.firstChild.nodeValue = value;
+                        } else {
+                          title = $("title");
+                          var val = R._g.doc.createTextNode(value);
+                          title.appendChild(val);
+                          node.appendChild(title);
+                        }
+                        break;
+                    case "href":
+                    case "target":
+                        var pn = node.parentNode;
+                        if (pn.tagName.toLowerCase() != "a") {
+                            var hl = $("a");
+                            pn.insertBefore(hl, node);
+                            hl.appendChild(node);
+                            pn = hl;
+                        }
+                        if (att == "target") {
+                            pn.setAttributeNS(xlink, "show", value == "blank" ? "new" : value);
+                        } else {
+                            pn.setAttributeNS(xlink, att, value);
+                        }
+                        break;
+                    case "cursor":
+                        node.style.cursor = value;
+                        break;
+                    case "transform":
+                        o.transform(value);
+                        break;
+                    case "arrow-start":
+                        addArrow(o, value);
+                        break;
+                    case "arrow-end":
+                        addArrow(o, value, 1);
+                        break;
+                    case "clip-rect":
+                        var rect = Str(value).split(separator);
+                        if (rect.length == 4) {
+                            o.clip && o.clip.parentNode.parentNode.removeChild(o.clip.parentNode);
+                            var el = $("clipPath"),
+                                rc = $("rect");
+                            el.id = R.createUUID();
+                            $(rc, {
+                                x: rect[0],
+                                y: rect[1],
+                                width: rect[2],
+                                height: rect[3]
+                            });
+                            el.appendChild(rc);
+                            o.paper.defs.appendChild(el);
+                            $(node, {"clip-path": "url(#" + el.id + ")"});
+                            o.clip = rc;
+                        }
+                        if (!value) {
+                            var path = node.getAttribute("clip-path");
+                            if (path) {
+                                var clip = R._g.doc.getElementById(path.replace(/(^url\(#|\)$)/g, E));
+                                clip && clip.parentNode.removeChild(clip);
+                                $(node, {"clip-path": E});
+                                delete o.clip;
+                            }
+                        }
+                    break;
+                    case "path":
+                        if (o.type == "path") {
+                            $(node, {d: value ? attrs.path = R._pathToAbsolute(value) : "M0,0"});
+                            o._.dirty = 1;
+                            if (o._.arrows) {
+                                "startString" in o._.arrows && addArrow(o, o._.arrows.startString);
+                                "endString" in o._.arrows && addArrow(o, o._.arrows.endString, 1);
+                            }
+                        }
+                        break;
+                    case "width":
+                        node.setAttribute(att, value);
+                        o._.dirty = 1;
+                        if (attrs.fx) {
+                            att = "x";
+                            value = attrs.x;
+                        } else {
+                            break;
+                        }
+                    case "x":
+                        if (attrs.fx) {
+                            value = -attrs.x - (attrs.width || 0);
+                        }
+                    case "rx":
+                        if (att == "rx" && o.type == "rect") {
+                            break;
+                        }
+                    case "cx":
+                        node.setAttribute(att, value);
+                        o.pattern && updatePosition(o);
+                        o._.dirty = 1;
+                        break;
+                    case "height":
+                        node.setAttribute(att, value);
+                        o._.dirty = 1;
+                        if (attrs.fy) {
+                            att = "y";
+                            value = attrs.y;
+                        } else {
+                            break;
+                        }
+                    case "y":
+                        if (attrs.fy) {
+                            value = -attrs.y - (attrs.height || 0);
+                        }
+                    case "ry":
+                        if (att == "ry" && o.type == "rect") {
+                            break;
+                        }
+                    case "cy":
+                        node.setAttribute(att, value);
+                        o.pattern && updatePosition(o);
+                        o._.dirty = 1;
+                        break;
+                    case "r":
+                        if (o.type == "rect") {
+                            $(node, {rx: value, ry: value});
+                        } else {
+                            node.setAttribute(att, value);
+                        }
+                        o._.dirty = 1;
+                        break;
+                    case "src":
+                        if (o.type == "image") {
+                            node.setAttributeNS(xlink, "href", value);
+                        }
+                        break;
+                    case "stroke-width":
+                        if (o._.sx != 1 || o._.sy != 1) {
+                            value /= mmax(abs(o._.sx), abs(o._.sy)) || 1;
+                        }
+                        if (o.paper._vbSize) {
+                            value *= o.paper._vbSize;
+                        }                        node.setAttribute(att, value);
+                        if (attrs["stroke-dasharray"]) {
+                            addDashes(o, attrs["stroke-dasharray"], params);
+                        }
+                        if (o._.arrows) {
+                            "startString" in o._.arrows && addArrow(o, o._.arrows.startString);
+                            "endString" in o._.arrows && addArrow(o, o._.arrows.endString, 1);
+                        }
+                        break;
+                    case "stroke-dasharray":
+                        addDashes(o, value, params);
+                        break;
+                    case "fill":
+                        var isURL = Str(value).match(R._ISURL);
+                        if (isURL) {
+                            el = $("pattern");
+                            var ig = $("image");
+                            el.id = R.createUUID();
+                            $(el, {x: 0, y: 0, patternUnits: "userSpaceOnUse", height: 1, width: 1});
+                            $(ig, {x: 0, y: 0, "xlink:href": isURL[1]});
+                            el.appendChild(ig);
 
 	                            (function (el) {
 	                                R._preload(isURL[1], function () {
@@ -8083,255 +8085,255 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this;
 	    };
 
-	    R._engine.path = function (pathString, vml) {
-	        var el = createNode("shape");
-	        el.style.cssText = cssDot;
-	        el.coordsize = zoom + S + zoom;
-	        el.coordorigin = vml.coordorigin;
-	        var p = new Element(el, vml),
-	            attr = {fill: "none", stroke: "#000"};
-	        pathString && (attr.path = pathString);
-	        p.type = "path";
-	        p.path = [];
-	        p.Path = E;
-	        setFillAndStroke(p, attr);
-	        vml.canvas && vml.canvas.appendChild(el);
-	        var skew = createNode("skew");
-	        skew.on = true;
-	        el.appendChild(skew);
-	        p.skew = skew;
-	        p.transform(E);
-	        return p;
-	    };
-	    R._engine.rect = function (vml, x, y, w, h, r) {
-	        var path = R._rectPath(x, y, w, h, r),
-	            res = vml.path(path),
-	            a = res.attrs;
-	        res.X = a.x = x;
-	        res.Y = a.y = y;
-	        res.W = a.width = w;
-	        res.H = a.height = h;
-	        a.r = r;
-	        a.path = path;
-	        res.type = "rect";
-	        return res;
-	    };
-	    R._engine.ellipse = function (vml, x, y, rx, ry) {
-	        var res = vml.path(),
-	            a = res.attrs;
-	        res.X = x - rx;
-	        res.Y = y - ry;
-	        res.W = rx * 2;
-	        res.H = ry * 2;
-	        res.type = "ellipse";
-	        setFillAndStroke(res, {
-	            cx: x,
-	            cy: y,
-	            rx: rx,
-	            ry: ry
-	        });
-	        return res;
-	    };
-	    R._engine.circle = function (vml, x, y, r) {
-	        var res = vml.path(),
-	            a = res.attrs;
-	        res.X = x - r;
-	        res.Y = y - r;
-	        res.W = res.H = r * 2;
-	        res.type = "circle";
-	        setFillAndStroke(res, {
-	            cx: x,
-	            cy: y,
-	            r: r
-	        });
-	        return res;
-	    };
-	    R._engine.image = function (vml, src, x, y, w, h) {
-	        var path = R._rectPath(x, y, w, h),
-	            res = vml.path(path).attr({stroke: "none"}),
-	            a = res.attrs,
-	            node = res.node,
-	            fill = node.getElementsByTagName(fillString)[0];
-	        a.src = src;
-	        res.X = a.x = x;
-	        res.Y = a.y = y;
-	        res.W = a.width = w;
-	        res.H = a.height = h;
-	        a.path = path;
-	        res.type = "image";
-	        fill.parentNode == node && node.removeChild(fill);
-	        fill.rotate = true;
-	        fill.src = src;
-	        fill.type = "tile";
-	        res._.fillpos = [x, y];
-	        res._.fillsize = [w, h];
-	        node.appendChild(fill);
-	        setCoords(res, 1, 1, 0, 0, 0);
-	        return res;
-	    };
-	    R._engine.text = function (vml, x, y, text) {
-	        var el = createNode("shape"),
-	            path = createNode("path"),
-	            o = createNode("textpath");
-	        x = x || 0;
-	        y = y || 0;
-	        text = text || "";
-	        path.v = R.format("m{0},{1}l{2},{1}", round(x * zoom), round(y * zoom), round(x * zoom) + 1);
-	        path.textpathok = true;
-	        o.string = Str(text);
-	        o.on = true;
-	        el.style.cssText = cssDot;
-	        el.coordsize = zoom + S + zoom;
-	        el.coordorigin = "0 0";
-	        var p = new Element(el, vml),
-	            attr = {
-	                fill: "#000",
-	                stroke: "none",
-	                font: R._availableAttrs.font,
-	                text: text
-	            };
-	        p.shape = el;
-	        p.path = path;
-	        p.textpath = o;
-	        p.type = "text";
-	        p.attrs.text = Str(text);
-	        p.attrs.x = x;
-	        p.attrs.y = y;
-	        p.attrs.w = 1;
-	        p.attrs.h = 1;
-	        setFillAndStroke(p, attr);
-	        el.appendChild(o);
-	        el.appendChild(path);
-	        vml.canvas.appendChild(el);
-	        var skew = createNode("skew");
-	        skew.on = true;
-	        el.appendChild(skew);
-	        p.skew = skew;
-	        p.transform(E);
-	        return p;
-	    };
-	    R._engine.setSize = function (width, height) {
-	        var cs = this.canvas.style;
-	        this.width = width;
-	        this.height = height;
-	        width == +width && (width += "px");
-	        height == +height && (height += "px");
-	        cs.width = width;
-	        cs.height = height;
-	        cs.clip = "rect(0 " + width + " " + height + " 0)";
-	        if (this._viewBox) {
-	            R._engine.setViewBox.apply(this, this._viewBox);
-	        }
-	        return this;
-	    };
-	    R._engine.setViewBox = function (x, y, w, h, fit) {
-	        R.eve("raphael.setViewBox", this, this._viewBox, [x, y, w, h, fit]);
-	        var paperSize = this.getSize(),
-	            width = paperSize.width,
-	            height = paperSize.height,
-	            H, W;
-	        if (fit) {
-	            H = height / h;
-	            W = width / w;
-	            if (w * H < width) {
-	                x -= (width - w * H) / 2 / H;
-	            }
-	            if (h * W < height) {
-	                y -= (height - h * W) / 2 / W;
-	            }
-	        }
-	        this._viewBox = [x, y, w, h, !!fit];
-	        this._viewBoxShift = {
-	            dx: -x,
-	            dy: -y,
-	            scale: paperSize
-	        };
-	        this.forEach(function (el) {
-	            el.transform("...");
-	        });
-	        return this;
-	    };
-	    var createNode;
-	    R._engine.initWin = function (win) {
-	            var doc = win.document;
-	            if (doc.styleSheets.length < 31) {
-	                doc.createStyleSheet().addRule(".rvml", "behavior:url(#default#VML)");
-	            } else {
-	                // no more room, add to the existing one
-	                // http://msdn.microsoft.com/en-us/library/ms531194%28VS.85%29.aspx
-	                doc.styleSheets[0].addRule(".rvml", "behavior:url(#default#VML)");
-	            }
-	            try {
-	                !doc.namespaces.rvml && doc.namespaces.add("rvml", "urn:schemas-microsoft-com:vml");
-	                createNode = function (tagName) {
-	                    return doc.createElement('<rvml:' + tagName + ' class="rvml">');
-	                };
-	            } catch (e) {
-	                createNode = function (tagName) {
-	                    return doc.createElement('<' + tagName + ' xmlns="urn:schemas-microsoft.com:vml" class="rvml">');
-	                };
-	            }
-	        };
-	    R._engine.initWin(R._g.win);
-	    R._engine.create = function () {
-	        var con = R._getContainer.apply(0, arguments),
-	            container = con.container,
-	            height = con.height,
-	            s,
-	            width = con.width,
-	            x = con.x,
-	            y = con.y;
-	        if (!container) {
-	            throw new Error("VML container not found.");
-	        }
-	        var res = new R._Paper,
-	            c = res.canvas = R._g.doc.createElement("div"),
-	            cs = c.style;
-	        x = x || 0;
-	        y = y || 0;
-	        width = width || 512;
-	        height = height || 342;
-	        res.width = width;
-	        res.height = height;
-	        width == +width && (width += "px");
-	        height == +height && (height += "px");
-	        res.coordsize = zoom * 1e3 + S + zoom * 1e3;
-	        res.coordorigin = "0 0";
-	        res.span = R._g.doc.createElement("span");
-	        res.span.style.cssText = "position:absolute;left:-9999em;top:-9999em;padding:0;margin:0;line-height:1;";
-	        c.appendChild(res.span);
-	        cs.cssText = R.format("top:0;left:0;width:{0};height:{1};display:inline-block;position:relative;clip:rect(0 {0} {1} 0);overflow:hidden", width, height);
-	        if (container == 1) {
-	            R._g.doc.body.appendChild(c);
-	            cs.left = x + "px";
-	            cs.top = y + "px";
-	            cs.position = "absolute";
-	        } else {
-	            if (container.firstChild) {
-	                container.insertBefore(c, container.firstChild);
-	            } else {
-	                container.appendChild(c);
-	            }
-	        }
-	        res.renderfix = function () {};
-	        return res;
-	    };
-	    R.prototype.clear = function () {
-	        R.eve("raphael.clear", this);
-	        this.canvas.innerHTML = E;
-	        this.span = R._g.doc.createElement("span");
-	        this.span.style.cssText = "position:absolute;left:-9999em;top:-9999em;padding:0;margin:0;line-height:1;display:inline;";
-	        this.canvas.appendChild(this.span);
-	        this.bottom = this.top = null;
-	    };
-	    R.prototype.remove = function () {
-	        R.eve("raphael.remove", this);
-	        this.canvas.parentNode.removeChild(this.canvas);
-	        for (var i in this) {
-	            this[i] = typeof this[i] == "function" ? R._removedFactory(i) : null;
-	        }
-	        return true;
-	    };
+    R._engine.path = function (pathString, vml) {
+        var el = createNode("shape");
+        el.style.cssText = cssDot;
+        el.coordsize = zoom + S + zoom;
+        el.coordorigin = vml.coordorigin;
+        var p = new Element(el, vml),
+            attr = {fill: "none", stroke: "#000"};
+        pathString && (attr.path = pathString);
+        p.type = "path";
+        p.path = [];
+        p.Path = E;
+        setFillAndStroke(p, attr);
+       vml.canvas && vml.canvas.appendChild(el);
+        var skew = createNode("skew");
+        skew.on = true;
+        el.appendChild(skew);
+        p.skew = skew;
+        p.transform(E);
+        return p;
+    };
+    R._engine.rect = function (vml, x, y, w, h, r) {
+        var path = R._rectPath(x, y, w, h, r),
+            res = vml.path(path),
+            a = res.attrs;
+        res.X = a.x = x;
+        res.Y = a.y = y;
+        res.W = a.width = w;
+        res.H = a.height = h;
+        a.r = r;
+        a.path = path;
+        res.type = "rect";
+        return res;
+    };
+    R._engine.ellipse = function (vml, x, y, rx, ry) {
+        var res = vml.path(),
+            a = res.attrs;
+        res.X = x - rx;
+        res.Y = y - ry;
+        res.W = rx * 2;
+        res.H = ry * 2;
+        res.type = "ellipse";
+        setFillAndStroke(res, {
+            cx: x,
+            cy: y,
+            rx: rx,
+            ry: ry
+        });
+        return res;
+    };
+    R._engine.circle = function (vml, x, y, r) {
+        var res = vml.path(),
+            a = res.attrs;
+        res.X = x - r;
+        res.Y = y - r;
+        res.W = res.H = r * 2;
+        res.type = "circle";
+        setFillAndStroke(res, {
+            cx: x,
+            cy: y,
+            r: r
+        });
+        return res;
+    };
+    R._engine.image = function (vml, src, x, y, w, h) {
+        var path = R._rectPath(x, y, w, h),
+            res = vml.path(path).attr({stroke: "none"}),
+            a = res.attrs,
+            node = res.node,
+            fill = node.getElementsByTagName(fillString)[0];
+        a.src = src;
+        res.X = a.x = x;
+        res.Y = a.y = y;
+        res.W = a.width = w;
+        res.H = a.height = h;
+        a.path = path;
+        res.type = "image";
+        fill.parentNode == node && node.removeChild(fill);
+        fill.rotate = true;
+        fill.src = src;
+        fill.type = "tile";
+        res._.fillpos = [x, y];
+        res._.fillsize = [w, h];
+        node.appendChild(fill);
+        setCoords(res, 1, 1, 0, 0, 0);
+        return res;
+    };
+    R._engine.text = function (vml, x, y, text) {
+        var el = createNode("shape"),
+            path = createNode("path"),
+            o = createNode("textpath");
+        x = x || 0;
+        y = y || 0;
+        text = text || "";
+        path.v = R.format("m{0},{1}l{2},{1}", round(x * zoom), round(y * zoom), round(x * zoom) + 1);
+        path.textpathok = true;
+        o.string = Str(text);
+        o.on = true;
+        el.style.cssText = cssDot;
+        el.coordsize = zoom + S + zoom;
+        el.coordorigin = "0 0";
+        var p = new Element(el, vml),
+            attr = {
+                fill: "#000",
+                stroke: "none",
+                font: R._availableAttrs.font,
+                text: text
+            };
+        p.shape = el;
+        p.path = path;
+        p.textpath = o;
+        p.type = "text";
+        p.attrs.text = Str(text);
+        p.attrs.x = x;
+        p.attrs.y = y;
+        p.attrs.w = 1;
+        p.attrs.h = 1;
+        setFillAndStroke(p, attr);
+        el.appendChild(o);
+        el.appendChild(path);
+        vml.canvas.appendChild(el);
+        var skew = createNode("skew");
+        skew.on = true;
+        el.appendChild(skew);
+        p.skew = skew;
+        p.transform(E);
+        return p;
+    };
+    R._engine.setSize = function (width, height) {
+        var cs = this.canvas.style;
+        this.width = width;
+        this.height = height;
+        width == +width && (width += "px");
+        height == +height && (height += "px");
+        cs.width = width;
+        cs.height = height;
+        cs.clip = "rect(0 " + width + " " + height + " 0)";
+        if (this._viewBox) {
+            R._engine.setViewBox.apply(this, this._viewBox);
+        }
+        return this;
+    };
+    R._engine.setViewBox = function (x, y, w, h, fit) {
+        R.eve("raphael.setViewBox", this, this._viewBox, [x, y, w, h, fit]);
+        var width = this.width,
+            height = this.height,
+            size = 1 / mmax(w / width, h /height),
+            H, W;
+        if (fit) {
+            H = height / h;
+            W = width / w;
+            if (w * H < width) {
+                x -= (width - w * H) / 2 / H;
+            }
+            if (h * W < height) {
+                y -= (height - h * W) / 2 / W;
+            }
+        }
+        this._viewBox = [x, y, w, h, !!fit];
+        this._viewBoxShift = {
+            dx: -x,
+            dy: -y,
+            scale: size
+        };
+        this.forEach(function (el) {
+            el.transform("");
+        });
+        return this;
+    };
+    var createNode;
+    R._engine.initWin = function (win) {
+            var doc = win.document;
+            if (doc.styleSheets.length < 31) {
+                doc.createStyleSheet().addRule(".rvml", "behavior:url(#default#VML)");
+            } else {
+                // no more room, add to the existing one
+                // http://msdn.microsoft.com/en-us/library/ms531194%28VS.85%29.aspx
+                doc.styleSheets[0].addRule(".rvml", "behavior:url(#default#VML)");
+            }
+            try {
+                !doc.namespaces.rvml && doc.namespaces.add("rvml", "urn:schemas-microsoft-com:vml");
+                createNode = function (tagName) {
+                    return doc.createElement('<rvml:' + tagName + ' class="rvml">');
+                };
+            } catch (e) {
+                createNode = function (tagName) {
+                    return doc.createElement('<' + tagName + ' xmlns="urn:schemas-microsoft.com:vml" class="rvml">');
+                };
+            }
+        };
+    R._engine.initWin(R._g.win);
+    R._engine.create = function () {
+        var con = R._getContainer.apply(0, arguments),
+            container = con.container,
+            height = con.height,
+            s,
+            width = con.width,
+            x = con.x,
+            y = con.y;
+        if (!container) {
+            throw new Error("VML container not found.");
+        }
+        var res = new R._Paper,
+            c = res.canvas = R._g.doc.createElement("div"),
+            cs = c.style;
+        x = x || 0;
+        y = y || 0;
+        width = width || 512;
+        height = height || 342;
+        res.width = width;
+        res.height = height;
+        width == +width && (width += "px");
+        height == +height && (height += "px");
+        res.coordsize = zoom * 1e3 + S + zoom * 1e3;
+        res.coordorigin = "0 0";
+        res.span = R._g.doc.createElement("span");
+        res.span.style.cssText = "position:absolute;left:-9999em;top:-9999em;padding:0;margin:0;line-height:1;";
+        c.appendChild(res.span);
+        cs.cssText = R.format("top:0;left:0;width:{0};height:{1};display:inline-block;position:relative;clip:rect(0 {0} {1} 0);overflow:hidden", width, height);
+        if (container == 1) {
+            R._g.doc.body.appendChild(c);
+            cs.left = x + "px";
+            cs.top = y + "px";
+            cs.position = "absolute";
+        } else {
+            if (container.firstChild) {
+                container.insertBefore(c, container.firstChild);
+            } else {
+                container.appendChild(c);
+            }
+        }
+        res.renderfix = function () {};
+        return res;
+    };
+    R.prototype.clear = function () {
+        R.eve("raphael.clear", this);
+        this.canvas.innerHTML = E;
+        this.span = R._g.doc.createElement("span");
+        this.span.style.cssText = "position:absolute;left:-9999em;top:-9999em;padding:0;margin:0;line-height:1;display:inline;";
+        this.canvas.appendChild(this.span);
+        this.bottom = this.top = null;
+    };
+    R.prototype.remove = function () {
+        R.eve("raphael.remove", this);
+        this.canvas.parentNode.removeChild(this.canvas);
+        for (var i in this) {
+            this[i] = typeof this[i] == "function" ? R._removedFactory(i) : null;
+        }
+        return true;
+    };
 
 	    var setproto = R.st;
 	    for (var method in elproto) if (elproto[has](method) && !setproto[has](method)) {
